@@ -2,150 +2,146 @@
 from PIL import Image
 import random, sys, os, math
 
-
-'''
-#making the program more modular : NOT DONE YET
-def createColorTiles2():
-    colors = {
-                'red' : (156, 58, 58, 255),
-                'purple' : (124, 72, 149, 255),
-                'blue' : (49, 69, 131, 255),
-                'green' : (58, 124, 65, 255),
-                'orange' : (205, 140, 64, 255)
-             }
-
-    tileLength = 100
-    tileBreadth = 100
-    for color, value in colors:
-        colorImageHandle = Image.new('RGBA', (tileLength, tileBreadth), value)
-        colorImageHandle.save('colors/' + color + '.jpg')
-'''
-
-def createPixelColorTiles():
+#DONE
+def colorToImageName(color, imageFormat):
     '''
-    creating 1x1 pixel size tiles
+    convert input color to imageName of input imageFormat
     '''
+    imageName = ''
+    for i in range(len(color)):
+        if i == len(color) - 1:
+            imageName += str(color[i]) + '.' + imageFormat
+        else:
+            imageName += str(color[i]) + '-'
 
-    #creating LIGHTBLUE color 1 pixel tile
-    imageHandleLightBlue = Image.new('RGBA', (1, 1), (23, 128, 156, 255))
-    imageHandleLightBlue.save('colors/lightblue-1p.jpg')
+    return imageName
 
-    #creating ORANGE color 1 pixel tile
-    imageHandleOrange = Image.new('RGBA', (1, 1), (205, 140, 64, 255))
-    imageHandleOrange.save('colors/orange-1p.jpg')
-
-    #creating PURPLE color 1 pixel tile
-    imageHandlePurple = Image.new('RGBA', (1, 1), (124, 72, 149, 255))
-    imageHandlePurple.save('colors/purple-1p.jpg')
-
-    #creating RED color 1 pixel tile
-    imageHandleRed = Image.new('RGBA', (1, 1), (156, 58, 58, 255))
-    imageHandleRed.save('colors/red-1p.jpg')
-
-    #creating BLUE color 1 pixel tile
-    imageHandleBlue = Image.new('RGBA', (1, 1), (49, 69, 131, 255))
-    imageHandleBlue.save('colors/blue-1p.jpg')
-
-    #creating GREEN color 1 pixel tile
-    imageHandleGreen = Image.new('RGBA', (1, 1), (58, 124, 65, 255))
-    imageHandleGreen.save('colors/green-1p.jpg')
-
-    #creating GREY color 1 pixel tile
-    imageHandleGrey = Image.new('RGBA', (1, 1), (86, 88, 88, 255))
-    imageHandleGrey.save('colors/grey-1p.jpg')
-
-
-def createTriangleTiles():
+#DONE
+def createPixelColorTiles(color, imageFormat):
     '''
-    create image tile with triangle in foreground on a square background
+    creating 1x1 pixel size tiles based on input color
     '''
-    imageBackgroundHandle1 = Image.open('colors/grey.jpg')
-    imageBackgroundHandle2 = Image.open('colors/grey.jpg')
-    xLimit, yLimit = imageBackgroundHandle1.size
+    os.chdir("c:/pythoncode/programs/wallpapergenerator/colors/pixel")
 
-    imageForegroundHandle = Image.open('colors/red-1p.jpg')
+    imageHandle = Image.new('RGBA', (1, 1), color)
+    imageName = colorToImageName(color, imageFormat)
+    imageHandle.save(imageName)
 
+
+#producing same images as before; conditions not working
+def createTriangleTiles(foregroundColorImage, backgroundColorImage):
+    '''
+    create image tile with triangle in foreground on the square backgroundColorImage
+    '''
+    os.chdir("c:/pythoncode/programs/wallpapergenerator/colors")
+
+    imageBackgroundHandle = Image.open('background/' + backgroundColorImage)
+    xLimit, yLimit = imageBackgroundHandle.size
+
+    imageForegroundHandle = Image.open('pixel/' + foregroundColorImage)
+
+    os.chdir("c:/pythoncode/programs/wallpapergenerator/colors/triangle/")
+
+    imageBackgroundCopyHandle = imageBackgroundHandle.copy()
     for y in range(yLimit):
         for x in range(y):
-            imageBackgroundHandle1.paste(imageForegroundHandle, (x, y))
+            imageBackgroundCopyHandle.paste(imageForegroundHandle, (x, y))
+    imageName = '1-' + foregroundColorImage[:-4] + '-' + backgroundColorImage
+    imageBackgroundCopyHandle.save(imageName)
 
+    imageBackgroundCopyHandle = imageBackgroundHandle.copy()
     for x in range(xLimit):
         for y in range(x):
-            imageBackgroundHandle2.paste(imageForegroundHandle, (x, y))
+            imageBackgroundCopyHandle.paste(imageForegroundHandle, (x, y))
+    imageName = '2-' + foregroundColorImage[:-4] + '-' + backgroundColorImage
+    imageBackgroundCopyHandle.save(imageName)
 
-    os.chdir("c:/pythoncode/programs/wallpapergenerator/colors")
-    imageBackgroundName = 'grey-red-triangle-tile1.jpg'
-    imageBackgroundHandle1.save(imageBackgroundName)
-    imageBackgroundName = 'grey-red-triangle-tile2.jpg'
-    imageBackgroundHandle2.save(imageBackgroundName)
+    imageBackgroundCopyHandle = imageBackgroundHandle.copy()
+    for x in range(xLimit, -1, -1):
+        for y in range(x):
+            imageBackgroundCopyHandle.paste(imageForegroundHandle, (x, y))
+    imageName = '3-' + foregroundColorImage[:-4] + '-' + backgroundColorImage
+    imageBackgroundCopyHandle.save(imageName)
 
+    imageBackgroundCopyHandle = imageBackgroundHandle.copy()
+    for y in range(yLimit, -1, -1):
+        for x in range(y):
+            imageBackgroundCopyHandle.paste(imageForegroundHandle, (x, y))
+    imageName = '4-' + foregroundColorImage[:-4] + '-' + backgroundColorImage
+    imageBackgroundCopyHandle.save(imageName)
 
-def createQuarterCircleTiles():
+createTriangleTiles(colorToImageName((198, 197, 98, 255), 'jpg'), colorToImageName((48, 48, 48, 255), 'jpg'))
+
+#NOT SATISFACTORY
+def createRandomBurstWallpaper():
+    imageBackgroundHandle = Image.new('RGBA', (1000, 1800), (52, 53, 54, 255))
+    xLimit, yLimit = imageBackgroundHandle.size
+
+    imageForegroundHandle1 = Image.open('colors/offwhite-1p.jpg')
+    imageForegroundHandle2 = Image.open('colors/lightblue-1p.jpg')
+    imageForegroundHandle3 = Image.open('colors/red-1p.jpg')
+    imageForegroundHandle4 = Image.open('colors/green-1p.jpg')
+    imageForegroundHandle5 = Image.open('colors/orange-1p.jpg')
+    imageForegroundHandle6 = Image.open('colors/blue-1p.jpg')
+
+    colors = [imageForegroundHandle1, imageForegroundHandle2, imageForegroundHandle3, imageForegroundHandle4, imageForegroundHandle5, imageForegroundHandle6]
+
+    for i in range(1000000):
+        color = random.randint(0, len(colors) - 1)
+        x = random.randint(0, xLimit)
+        y = random.randint(0, yLimit)
+        imageBackgroundHandle.paste(colors[color], (x,y))
+
+    imageWallpaperName = 'burst.jpg'
+    os.chdir("c:/pythoncode/programs/wallpapergenerator/output/mobile")
+    imageBackgroundHandle.save(imageWallpaperName)
+
+#DONE
+def createCircleTiles(foregroundColorImage, backgroundColorImage, style):
     '''
-    create image tile with quarter circle in foreground on a square background
+    create image tile of input style in foregroundColor on the square backgroundColorImage
     '''
-    imageBackgroundHandle1 = Image.open('colors/blue.jpg')
-    imageBackgroundHandle2 = Image.open('colors/blue.jpg')
-    imageBackgroundHandle3 = Image.open('colors/blue.jpg')
-    imageBackgroundHandle4 = Image.open('colors/blue.jpg')
-    xLimit, yLimit = imageBackgroundHandle1.size
-
-    imageForegroundHandle = Image.open('colors/lightblue-1p.jpg')
-
     os.chdir("c:/pythoncode/programs/wallpapergenerator/colors")
 
-    #creating quarter-circle with south-east corner as origin
-    xOrigin = xLimit
-    yOrigin = yLimit
-
-    for y in range(yLimit):
-        for x in range(xLimit):
-            distance = int(pow((pow((x - xOrigin), 2) + pow((y - yOrigin), 2)), (1/2)))
-            if distance <= xLimit:
-                imageBackgroundHandle1.paste(imageForegroundHandle, (x, y))
-
-    imageBackgroundName = 'blue-lightblue-quartercircle-tile1.jpg'
-    imageBackgroundHandle1.save(imageBackgroundName)
+    imageBackgroundHandle = Image.open('background/' + backgroundColorImage)
+    xLimit, yLimit = imageBackgroundHandle.size
 
 
-    #creating quarter-circle with north-west corner as origin
-    xOrigin = 0
-    yOrigin = 0
+    originsQuarterCircle = {'corner1' : {'xOrigin' : xLimit, 'yOrigin' : yLimit},
+                            'corner2' : {'xOrigin' : 0, 'yOrigin' : yLimit},
+                            'corner3' : {'xOrigin' : xLimit, 'yOrigin' : 0},
+                            'corner4' : {'xOrigin' : 0, 'yOrigin' : 0}}
 
-    for y in range(yLimit):
-        for x in range(xLimit):
-            distance = int(pow((pow((x - xOrigin), 2) + pow((y - yOrigin), 2)), (1/2)))
-            if distance <= xLimit:
-                imageBackgroundHandle2.paste(imageForegroundHandle, (x, y))
+    originsSemiCircle = {'corner1' : {'xOrigin' : xLimit // 2, 'yOrigin' : 0},
+                         'corner2' : {'xOrigin' : 0, 'yOrigin' : yLimit // 2},
+                         'corner3' : {'xOrigin' : xLimit, 'yOrigin' : yLimit // 2},
+                         'corner4' : {'xOrigin' : xLimit // 2, 'yOrigin' : yLimit}}
 
-    imageBackgroundName = 'blue-lightblue-quartercircle-tile2.jpg'
-    imageBackgroundHandle2.save(imageBackgroundName)
+    for i in range(1, 5):
+        imageBackgroundHandle = Image.open('background/' + backgroundColorImage)
+        imageBackgroundCopyHandle = imageBackgroundHandle.copy()
+        imageForegroundHandle = Image.open('pixel/' + foregroundColorImage)
 
-    #creating quarter-circle with north-west corner as origin
-    xOrigin = 0
-    yOrigin = 100
+        if style == 'quartercircle':
+            xOrigin = originsQuarterCircle['corner' + str(i)]['xOrigin']
+            yOrigin = originsQuarterCircle['corner' + str(i)]['yOrigin']
 
-    for y in range(yLimit):
-        for x in range(xLimit):
-            distance = int(pow((pow((x - xOrigin), 2) + pow((y - yOrigin), 2)), (1/2)))
-            if distance <= xLimit:
-                imageBackgroundHandle3.paste(imageForegroundHandle, (x, y))
+        elif style == 'semicircle':
+            xOrigin = originsSemiCircle['corner' + str(i)]['xOrigin']
+            yOrigin = originsSemiCircle['corner' + str(i)]['yOrigin']
 
-    imageBackgroundName = 'blue-lightblue-quartercircle-tile3.jpg'
-    imageBackgroundHandle3.save(imageBackgroundName)
+        for y in range(yLimit):
+            for x in range(xLimit):
+                distance = int(pow((pow((x - xOrigin), 2) + pow((y - yOrigin), 2)), (1/2)))
+                if (style == 'quartercircle' and distance <= xLimit) or (style == 'semicircle' and distance <= xLimit // 2):
+                    imageBackgroundCopyHandle.paste(imageForegroundHandle, (x, y))
 
-    #creating quarter-circle with north-west corner as origin
-    xOrigin = 100
-    yOrigin = 0
 
-    for y in range(yLimit):
-        for x in range(xLimit):
-            distance = int(pow((pow((x - xOrigin), 2) + pow((y - yOrigin), 2)), (1/2)))
-            if distance <= xLimit:
-                imageBackgroundHandle4.paste(imageForegroundHandle, (x, y))
-
-    imageBackgroundName = 'blue-lightblue-quartercircle-tile4.jpg'
-    imageBackgroundHandle4.save(imageBackgroundName)
+        imageName = str(i) + '-' +foregroundColorImage[:-4] + '-' + backgroundColorImage
+        if style == 'quartercircle':
+            imageBackgroundCopyHandle.save('quartercircle/' + imageName)
+        elif style == 'semicircle':
+            imageBackgroundCopyHandle.save('semicircle/' + imageName)
 
 
 def createQuarterCircleWallpaper():
@@ -172,74 +168,6 @@ def createQuarterCircleWallpaper():
     os.chdir("c:/pythoncode/programs/wallpapergenerator/output/mobile")
     imageBackgroundName = 'blue-lightblue-quartercircle.jpg'
     imageBackgroundHandle.save(imageBackgroundName)
-
-
-def createSemiCircleTiles():
-    '''
-    create semi circle theme wallpapers
-    '''
-    imageBackgroundHandle1 = Image.open('colors/grey.jpg')
-    imageBackgroundHandle2 = Image.open('colors/grey.jpg')
-    imageBackgroundHandle3 = Image.open('colors/grey.jpg')
-    imageBackgroundHandle4 = Image.open('colors/grey.jpg')
-    xLimit, yLimit = imageBackgroundHandle1.size
-
-    imageForegroundHandle = Image.open('colors/green-1p.jpg')
-
-    os.chdir("c:/pythoncode/programs/wallpapergenerator/colors")
-
-    #creating semi-circle with mid-west as origin
-    xOrigin = 0
-    yOrigin = yLimit // 2
-
-    for y in range(yLimit):
-        for x in range(xLimit):
-            distance = int(pow((pow((x - xOrigin), 2) + pow((y - yOrigin), 2)), (1/2)))
-            if distance <= xLimit // 2:
-                imageBackgroundHandle1.paste(imageForegroundHandle, (x, y))
-
-    imageBackgroundName = 'grey-green-semicircle-tile1.jpg'
-    imageBackgroundHandle1.save(imageBackgroundName)
-
-
-    #creating semi-circle with mid-north as origin
-    xOrigin = xLimit // 2
-    yOrigin = 0
-
-    for y in range(yLimit):
-        for x in range(xLimit):
-            distance = int(pow((pow((x - xOrigin), 2) + pow((y - yOrigin), 2)), (1/2)))
-            if distance <= xLimit // 2:
-                imageBackgroundHandle2.paste(imageForegroundHandle, (x, y))
-
-    imageBackgroundName = 'grey-green-semicircle-tile2.jpg'
-    imageBackgroundHandle2.save(imageBackgroundName)
-
-    #creating semi-circle with mid-east as origin
-    xOrigin = xLimit
-    yOrigin = yLimit // 2
-
-    for y in range(yLimit):
-        for x in range(xLimit):
-            distance = int(pow((pow((x - xOrigin), 2) + pow((y - yOrigin), 2)), (1/2)))
-            if distance <= xLimit // 2:
-                imageBackgroundHandle3.paste(imageForegroundHandle, (x, y))
-
-    imageBackgroundName = 'grey-green-semicircle-tile3.jpg'
-    imageBackgroundHandle3.save(imageBackgroundName)
-
-    #creating semi-circle with mid-south as origin
-    xOrigin = xLimit // 2
-    yOrigin = yLimit
-
-    for y in range(yLimit):
-        for x in range(xLimit):
-            distance = int(pow((pow((x - xOrigin), 2) + pow((y - yOrigin), 2)), (1/2)))
-            if distance <= xLimit // 2:
-                imageBackgroundHandle4.paste(imageForegroundHandle, (x, y))
-
-    imageBackgroundName = 'grey-green-semicircle-tile4.jpg'
-    imageBackgroundHandle4.save(imageBackgroundName)
 
 
 def createSemiCircleWallpaper():
@@ -275,11 +203,11 @@ def createTriangleWallpaper():
 
     os.chdir("c:/pythoncode/programs/wallpapergenerator")
 
-    imageBackgroundHandle = Image.new('RGBA', (1000, 1900))
+    imageBackgroundHandle = Image.new('RGBA', (1000, 1800))
     xLimit, yLimit = imageBackgroundHandle.size
 
-    imageTriangleHandle1 = Image.open('colors/grey-red-triangle-tile1.jpg')
-    imageTriangleHandle2 = Image.open('colors/grey-red-triangle-tile2.jpg')
+    imageTriangleHandle1 = Image.open('colors/grey-offwhite-triangle-tile1.jpg')
+    imageTriangleHandle2 = Image.open('colors/grey-offwhite-triangle-tile2.jpg')
 
     colorTiles = [imageTriangleHandle1, imageTriangleHandle2]
 
@@ -289,36 +217,27 @@ def createTriangleWallpaper():
             imageBackgroundHandle.paste(colorTiles[colorTile], (x, y))
 
     os.chdir("c:/pythoncode/programs/wallpapergenerator/output/mobile")
-    imageBackgroundName = 'grey-red-triangle.jpg'
+    imageBackgroundName = 'grey-offwhite-triangle.jpg'
     imageBackgroundHandle.save(imageBackgroundName)
 
+#DONE
+def createColorTiles(xLimit, yLimit, color):
+    '''
+    create square image of input color of input dimensions
+    '''
+    os.chdir("c:/pythoncode/programs/wallpapergenerator/colors/background/")
+    imageHandle = Image.new('RGBA', (xLimit, yLimit), color)
 
-def createColorTiles():
-    #creating PURPLE color tile
-    imageHandlePurple = Image.new('RGBA', (100, 100), (124, 72, 149, 255))
-    imageHandlePurple.save('colors/purple.jpg')
+    imageName = ''
+    for i in range(len(color)):
+        if i == len(color) - 1:
+            imageName += str(color[i]) + '.jpg'
+        else:
+            imageName += str(color[i]) + '-'
 
-    #creating RED color tile
-    imageHandleRed = Image.new('RGBA', (100, 100), (156, 58, 58, 255))
-    imageHandleRed.save('colors/red.jpg')
+    imageHandle.save(imageName)
 
-    #creating BLUE color tile
-    imageHandleBlue = Image.new('RGBA', (100, 100), (49, 69, 131, 255))
-    imageHandleBlue.save('colors/blue.jpg')
 
-    #creating GREEN color tile
-    imageHandleGreen = Image.new('RGBA', (100, 100), (58, 124, 65, 255))
-    imageHandleGreen.save('colors/green.jpg')
-    #creating ORANGE color tile
-
-    imageHandleOrange = Image.new('RGBA', (100, 100), (205, 140, 64, 255))
-    imageHandleOrange.save('colors/orange.jpg')
-
-    #creating GREY color tile
-    imageHandleGrey = Image.new('RGBA', (100, 100), (59, 60, 60, 255))
-    imageHandleGrey.save('colors/grey.jpg')
-
-#creating wallpaper image
 def createSquareWallpaper(orientation, imageFormat, style):
     createColorTiles()
 
@@ -383,7 +302,6 @@ def createSquareWallpaper(orientation, imageFormat, style):
     print('\nAll done...!\t' + wallpaperName + ' created!')
 
 
-#taking wallpaper specifications from user
 def getWallpaperSpecs():
     orientation = input('\nEnter the orientation of wallpaper [mobile/desktop]: ')
 
@@ -405,6 +323,3 @@ def getWallpaperSpecs():
 
 
     createSquareWallpaper(orientation, imageFormat, style)
-
-
-createQuarterCircleWallpaper()
