@@ -219,49 +219,12 @@ def createSquareWallpaper(foregroundColor, backgroundColor, imageFormat):
     imageWallpaperHandle.save(imageWallpaperName)
 
 
-#NOT SATISFACTORY
-def createRandomBurstWallpaper():
-    imageBackgroundHandle = Image.new('RGBA', (1000, 1800), (52, 53, 54, 255))
+#NOT FINISHED
+def createRandomBurstWallpaper(backgroundColor, imageFormat):
+    '''
+    create wallpaper of input backgroundColor with randomly chosen foregroundColor(s) and styles of specified imageFormat
+    '''
+    os.chdir("c:/pythoncode/programs/wallpapergenerator/colors/")
+
+    imageBackgroundHandle = Image.new('RGBA', (1000, 1800), backgroundColor)
     xLimit, yLimit = imageBackgroundHandle.size
-
-    imageForegroundHandle1 = Image.open('colors/offwhite-1p.jpg')
-    imageForegroundHandle2 = Image.open('colors/lightblue-1p.jpg')
-    imageForegroundHandle3 = Image.open('colors/red-1p.jpg')
-    imageForegroundHandle4 = Image.open('colors/green-1p.jpg')
-    imageForegroundHandle5 = Image.open('colors/orange-1p.jpg')
-    imageForegroundHandle6 = Image.open('colors/blue-1p.jpg')
-
-    colors = [imageForegroundHandle1, imageForegroundHandle2, imageForegroundHandle3, imageForegroundHandle4, imageForegroundHandle5, imageForegroundHandle6]
-
-    for i in range(1000000):
-        color = random.randint(0, len(colors) - 1)
-        x = random.randint(0, xLimit)
-        y = random.randint(0, yLimit)
-        imageBackgroundHandle.paste(colors[color], (x,y))
-
-    imageWallpaperName = 'burst.jpg'
-    os.chdir("c:/pythoncode/programs/wallpapergenerator/output/mobile")
-    imageBackgroundHandle.save(imageWallpaperName)
-
-
-def getWallpaperSpecs():
-    orientation = input('\nEnter the orientation of wallpaper [mobile/desktop]: ')
-
-    imageFormat = input('\nEnter the image format [jpg/png]: ')
-
-    style = input('\nEnter wallpaper style [boxes/rows/columns/random]: ')
-
-    if orientation != 'mobile' and orientation != 'desktop' and orientation != 'square':
-        print('Invalid orientation entered!')
-        orientation = 'mobile'
-
-    if imageFormat != 'jpg' and imageFormat != 'png':
-        print('Invalid image format entered!')
-        imageFormat = 'jpg'
-
-    if style != 'boxes' and style !='rows' and style != 'columns' and style != 'random':
-        print('Invalid style entered!')
-        style = 'boxes'
-
-
-    createSquareWallpaper(orientation, imageFormat, style)
