@@ -138,7 +138,7 @@ def createSquareTiles(xLimit, yLimit, color):
 #DONE
 def createCircleWallpaper(foregroundColor, backgroundColor, style, imageFormat):
     '''
-    create wallpapers with of input style (quartercircle, semicircle) of input imageFormat based on input foregroundColor & backgroundColor tuples
+    create wallpaper with of input style (quartercircle, semicircle) of input imageFormat based on input foregroundColor & backgroundColor tuples
     '''
     os.chdir("c:/pythoncode/programs/wallpapergenerator")
 
@@ -173,7 +173,7 @@ def createCircleWallpaper(foregroundColor, backgroundColor, style, imageFormat):
 #DONE
 def createTriangleWallpaper(foregroundColor, backgroundColor, imageFormat):
     '''
-    create wallpapers with triangle tiles
+    create wallpaper with triangle tiles
     '''
     os.chdir("c:/pythoncode/programs/wallpapergenerator")
 
@@ -194,69 +194,29 @@ def createTriangleWallpaper(foregroundColor, backgroundColor, imageFormat):
     imageWallpaperName = colorToImageName(foregroundColor, imageFormat)[:-4] + '-' + colorToImageName(backgroundColor, imageFormat)
     imageWallpaperHandle.save(imageWallpaperName)
 
+#DONE
+def createSquareWallpaper(foregroundColor, backgroundColor, imageFormat):
+    '''
+    create wallpaper with input foregroundColor & backgroundColor of specified imageFormat
+    '''
+    os.chdir("c:/pythoncode/programs/wallpapergenerator/colors/background/")
 
-def createSquareWallpaper(orientation, imageFormat, style):
-    createColorTiles()
+    imageWallpaperHandle = Image.new('RGBA', (1000, 1800))
+    xLimit, yLimit = imageWallpaperHandle.size
 
-    imageHandleRed = Image.open('colors/red.jpg')
-    imageHandleBlue = Image.open('colors/blue.jpg')
-    imageHandleGreen = Image.open('colors/green.jpg')
-    imageHandleOrange = Image.open('colors/orange.jpg')
-    imageHandlePurple = Image.open('colors/purple.jpg')
+    imageForegroundHandle = Image.open(colorToImageName(foregroundColor, imageFormat))
 
-    colorTiles = [imageHandleRed, imageHandleBlue, imageHandleGreen, imageHandleOrange, imageHandlePurple]
+    imageBackgroundHandle = Image.open(colorToImageName(backgroundColor, imageFormat))
 
-    #choosing image orientation
-    if orientation == 'mobile':
-        wallpaperHandle = Image.new('RGBA', (400, 600))
-        xLimit = 401
-        yLimit = 601
-    else:
-        wallpaperHandle = Image.new('RGBA', (1200, 800))
-        xLimit = 1201
-        yLimit = 801
-
-    colorTile = 0
-
-    #choosing image style
-    if style == 'rows':
-        for y in range(0, yLimit, 100):
-            colorTile = random.randint(0, len(colorTiles) - 1)
-            for x in range(0, xLimit, 100):
-                wallpaperHandle.paste(colorTiles[colorTile], (x, y))
-
-    elif style == 'columns':
+    colorTiles = [imageForegroundHandle, imageBackgroundHandle]
+    for y in range(0, yLimit, 100):
         for x in range(0, xLimit, 100):
             colorTile = random.randint(0, len(colorTiles) - 1)
-            for y in range(0, yLimit, 100):
-                wallpaperHandle.paste(colorTiles[colorTile], (x, y))
+            imageWallpaperHandle.paste(colorTiles[colorTile], (x, y))
 
-    elif style == 'random':
-        for y in range(0, yLimit, 100):
-            for x in range(0, xLimit, 100):
-                colorTile = random.randint(0, len(colorTiles) - 1)
-                wallpaperHandle.paste(colorTiles[colorTile], (x, y))
-
-    else:
-        count = 0
-        for y in range(0, yLimit, 100):
-            for x in range(0, xLimit, 100):
-                colorTile = count % len(colorTiles)
-                count += 1
-                wallpaperHandle.paste(colorTiles[colorTile], (x, y))
-
-    #choosing image format
-    if imageFormat == 'png':
-        imageFormat = '.png'
-    else:
-        imageFormat = '.jpg'
-
-    #creating image filename
-    wallpaperName = orientation + '-' + style + imageFormat
-    os.chdir("c:/pythoncode/programs/wallpapergenerator/output/" + orientation)
-    wallpaperHandle.save(wallpaperName)
-
-    print('\nAll done...!\t' + wallpaperName + ' created!')
+    os.chdir("c:/pythoncode/programs/wallpapergenerator/output/mobile/")
+    imageWallpaperName = colorToImageName(foregroundColor, imageFormat)[:-4] + '-' + colorToImageName(backgroundColor, imageFormat)
+    imageWallpaperHandle.save(imageWallpaperName)
 
 
 #NOT SATISFACTORY
