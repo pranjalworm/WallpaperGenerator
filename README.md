@@ -5,7 +5,8 @@ Here is some detailed information on how to use Wallpaper Generator (DOCUMENTATI
 <ul>
 <li><code>createPixelTile(color, imageFormat)</code> use this function to create 1x1 size image which can be later pasted onto a bigger tile to make shapes like triangles, quartercircles, semicircles etc.<br>
 <code>color</code> : color tuple like (198, 74, 78, 255) <br>
-<code>imageFormat</code> : string ('jpg', 'png')
+<code>imageFormat</code> : string ('jpg', 'png')<br>
+Output Examples: see colors/pixel dir
 </li>
 
 <li><code>createSquareTile(xLimit, yLimit, color)</code> use this function to create an image of specified size and color<br>
@@ -44,6 +45,6 @@ Output examples: see colors/circle dir
 <li><code>createCircleWallpaper(foregroundColor, backgroundColor, style, imageFormat)</code> use this function to create Circle themed wallpaper<br>
 <code>foregroundColor</code> : color tuple of foreground image (it should already exist of use <code>createCircleTile()</code> first)<br>
 <code>backgroundColor</code> : color tuple of image to be used as background (it should already exists or use <code>createSquareTile()</code> first)<br>
-<code>style</code> : string ('semicircle', 'quartercircle')
+<code>style</code> : string ('semicircle', 'quartercircle')<br>
 <code>imageFormat</code> : string ('jpg', 'png')
 </li>
