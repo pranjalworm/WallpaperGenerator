@@ -14,18 +14,20 @@ Here is some detailed information on how to use Wallpaper Generator (DOCUMENTATI
 <code>color</code> : color tuple<br>
 </li>
 
-<li><code>createTriangleTile(foregroundColorImage, backgroundColorImage)</code> use this function to create all possible tiles with triangles in foreground on square background<br>
-<code>foregroundColorImage</code> : color tuple of the 1x1 size image (it should already exist)<br>
-<code>backgroundColorImage</code> : color tuple of the image to be used as background (it should already exist)<br>
+<li><code>createTriangleTile(foregroundColor, backgroundColor)</code> use this function to create all possible tiles with triangles in foreground on square background<br>
+<code>foregroundColor</code> : color tuple of the 1x1 size image (it should already exist or use <code>createPixelTile()</code> first)<br>
+<code>backgroundColor</code> : color tuple of the image to be used as background (it should already exist or use <code>createSquareTile()</code> first)<br>
 </li>
 
-<li><code>createCircleTile(foregroundColorImage, backgroundColorImage, style)</code> use this function to create all possible tiles with quartercircle/semicircle (specified through style) in foreground on square background<br>
-<code>foregroundColorImage</code> : color tuple of the 1x1 size image (it should already exist)<br>
-<code>backgroundColorImage</code> : color tuple of the image to be used as background (it should already exist)<br>
+<li><code>createCircleTile(foregroundColor, backgroundColor, style)</code> use this function to create all possible tiles with quartercircle/semicircle (specified through style) in foreground on square background<br>
+<code>foregroundColor</code> : color tuple of the 1x1 size image (it should already exist or use <code>createPixelTile()</code> first)<br>
+<code>backgroundColor</code> : color tuple of the image to be used as background (it should already exist or use <code>createSquareTile()</code> first)<br>
 <code>style</code> : string ('quartercircle', 'semicircle')<br>
 </li>
 
 <li><code>createSquareWallpaper(foregroundColor, backgroundColor, imageFormat)</code> use this function to create wallpaper of desired imageFormat with input foregroundColor & backgroundColor<br>
-
+<code>foregroundColor</code> : color tuple of foreground image (it should already exist or use <code>createSquareTile()</code> first)<br>
+<code>foregroundColor</code> : color tuple of image to be used as background (it should already exist or use <code>createSquareTile()</code> first)<br>
+<code>imageFormat</code> : string ('jpg', 'png')
 </li>
 
