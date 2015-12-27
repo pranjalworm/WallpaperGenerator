@@ -11,7 +11,8 @@ Here is some detailed information on how to use Wallpaper Generator (DOCUMENTATI
 <li><code>createSquareTile(xLimit, yLimit, color)</code> use this function to create an image of specified size and color<br>
 <code>xLimit</code> : width of output image<br>
 <code>yLimit</code> : height of output image<br>
-<code>color</code> : color tuple<br>
+<code>color</code> : color tuple<br><br>
+<img src = 'https://goo.gl/photos/vodNRvJ992FARNb28'></img>
 </li>
 
 <li><code>createTriangleTile(foregroundColor, backgroundColor)</code> use this function to create all possible tiles with triangles in foreground on square background<br>
