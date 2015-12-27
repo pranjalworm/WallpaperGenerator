@@ -11,24 +11,39 @@ Here is some detailed information on how to use Wallpaper Generator (DOCUMENTATI
 <li><code>createSquareTile(xLimit, yLimit, color)</code> use this function to create an image of specified size and color<br>
 <code>xLimit</code> : width of output image<br>
 <code>yLimit</code> : height of output image<br>
-<code>color</code> : color tuple<br><br>
-<img src = 'https://goo.gl/photos/vodNRvJ992FARNb28'></img>
+<code>color</code> : color tuple<br>
+Examples: see colors/background dir
 </li>
 
 <li><code>createTriangleTile(foregroundColor, backgroundColor)</code> use this function to create all possible tiles with triangles in foreground on square background<br>
 <code>foregroundColor</code> : color tuple of the 1x1 size image (it should already exist or use <code>createPixelTile()</code> first)<br>
 <code>backgroundColor</code> : color tuple of the image to be used as background (it should already exist or use <code>createSquareTile()</code> first)<br>
+Examples: see colors/triangle dir
 </li>
 
 <li><code>createCircleTile(foregroundColor, backgroundColor, style)</code> use this function to create all possible tiles with quartercircle/semicircle (specified through style) in foreground on square background<br>
 <code>foregroundColor</code> : color tuple of the 1x1 size image (it should already exist or use <code>createPixelTile()</code> first)<br>
 <code>backgroundColor</code> : color tuple of the image to be used as background (it should already exist or use <code>createSquareTile()</code> first)<br>
 <code>style</code> : string ('quartercircle', 'semicircle')<br>
+Examples: see colors/circle dir
 </li>
 
-<li><code>createSquareWallpaper(foregroundColor, backgroundColor, imageFormat)</code> use this function to create wallpaper of desired imageFormat with input foregroundColor & backgroundColor<br>
+<li><code>createSquareWallpaper(foregroundColor, backgroundColor, imageFormat)</code> use this function to create Square themed wallpaper<br>
 <code>foregroundColor</code> : color tuple of foreground image (it should already exist or use <code>createSquareTile()</code> first)<br>
-<code>foregroundColor</code> : color tuple of image to be used as background (it should already exist or use <code>createSquareTile()</code> first)<br>
+<code>backgroundColor</code> : color tuple of image to be used as background (it should already exist or use <code>createSquareTile()</code> first)<br>
 <code>imageFormat</code> : string ('jpg', 'png')
 </li>
 
+
+<li><code>createTriangleWallpaper(foregroundColor, backgroundColor, imageFormat)</code> use this function to create Triangle themed wallpaper<br>
+<code>foregroundColor</code> : color tuple of foreground image (it should already exist of use <code>createTriangleTile()</code> first)<br>
+<code>backgroundColor</code> : color tuple of image to be used as background (it should already exists or use <code>createSquareTile()</code> first)<br>
+<code>imageFormat</code> : string ('jpg', 'png')
+</li>
+
+<li><code>createCircleWallpaper(foregroundColor, backgroundColor, style, imageFormat)</code> use this function to create Circle themed wallpaper<br>
+<code>foregroundColor</code> : color tuple of foreground image (it should already exist of use <code>createCircleTile()</code> first)<br>
+<code>backgroundColor</code> : color tuple of image to be used as background (it should already exists or use <code>createSquareTile()</code> first)<br>
+<code>style</code> : string ('semicircle', 'quartercircle')
+<code>imageFormat</code> : string ('jpg', 'png')
+</li>
