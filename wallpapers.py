@@ -17,9 +17,9 @@ def colorToImageName(color, imageFormat):
     return imageName
 
 #DONE
-def createPixelTiles(color, imageFormat):
+def createPixelTile(color, imageFormat):
     '''
-    creating 1x1 pixel size tiles based on input color
+    creating 1x1 pixel size tile based on input color
     '''
     os.chdir("c:/pythoncode/programs/wallpapergenerator/colors/pixel")
 
@@ -28,57 +28,88 @@ def createPixelTiles(color, imageFormat):
     imageHandle.save(imageName)
 
 
-#producing same images as before; conditions not working; code too repetitive
-def createTriangleTiles(foregroundColorImage, backgroundColorImage):
+#not working at all and code is obviously incorrect; but not in the mood right now...
+def createTriangleTile(foregroundColor, backgroundColor):
     '''
     create image tile with triangle in foreground on the square backgroundColorImage
     '''
     os.chdir("c:/pythoncode/programs/wallpapergenerator/colors")
 
-    imageBackgroundHandle = Image.open('background/' + backgroundColorImage)
+    imageBackgroundHandle = Image.open('background/' + colorToImageName(backgroundColorImage, 'jpg'))
     xLimit, yLimit = imageBackgroundHandle.size
 
-    imageForegroundHandle = Image.open('pixel/' + foregroundColorImage)
+    imageForegroundHandle = Image.open('pixel/' + colorToImageName(foregroundColorImage, 'jpg'))
 
     os.chdir("c:/pythoncode/programs/wallpapergenerator/colors/triangle/")
 
-    imageBackgroundCopyHandle = imageBackgroundHandle.copy()
-    for y in range(yLimit):
-        for x in range(y):
-            imageBackgroundCopyHandle.paste(imageForegroundHandle, (x, y))
-    imageName = '1-' + foregroundColorImage[:-4] + '-' + backgroundColorImage
-    imageBackgroundCopyHandle.save(imageName)
+    for i in range(0, 1):
+        if i == 0:
+            a = 0
+            b = 0
+            start1 = 0
+            end1 =  xLimit
+            step1 = 1
+            start2 = 0
+            end2 = a
+            step2 = 1
+            p = a
+            q = b
 
-    imageBackgroundCopyHandle = imageBackgroundHandle.copy()
-    for x in range(xLimit):
-        for y in range(x):
-            imageBackgroundCopyHandle.paste(imageForegroundHandle, (x, y))
-    imageName = '2-' + foregroundColorImage[:-4] + '-' + backgroundColorImage
-    imageBackgroundCopyHandle.save(imageName)
+        elif i == 1:
+            a = 0
+            b = 0
+            start1 = 0
+            end1 = xLimit
+            step1 = 1
+            start2 = 0
+            end2 = a
+            step2 = 1
+            p = a
+            q = b
 
-    imageBackgroundCopyHandle = imageBackgroundHandle.copy()
-    for x in range(xLimit, -1, -1):
-        for y in range(x):
-            imageBackgroundCopyHandle.paste(imageForegroundHandle, (x, y))
-    imageName = '3-' + foregroundColorImage[:-4] + '-' + backgroundColorImage
-    imageBackgroundCopyHandle.save(imageName)
+        elif i == 2:
+            a = 0
+            b = 0
+            start1 = 0
+            end1 = xLimit
+            step1 = 1
+            start2 = 0
+            end2 = a
+            step2 = 1
+            p = a
+            q = b
 
-    imageBackgroundCopyHandle = imageBackgroundHandle.copy()
-    for y in range(yLimit, -1, -1):
-        for x in range(y):
-            imageBackgroundCopyHandle.paste(imageForegroundHandle, (x, y))
-    imageName = '4-' + foregroundColorImage[:-4] + '-' + backgroundColorImage
-    imageBackgroundCopyHandle.save(imageName)
+        else:
+            a = 0
+            b = 0
+            start1 = 0
+            end1 = xLimit
+            step1 = 1
+            start2 = 0
+            end2 = a
+            step2 = 1
+            p = a
+            q = b
 
+        imageBackgroundCopyHandle = imageBackgroundHandle.copy()
+        for a in range(start1, end1, step1):
+            for b in range(start2, end2, step2):
+                print(a, b, start1, end1, step1, start2, end2, step2, p, q)
+                imageBackgroundCopyHandle.paste(imageForegroundHandle, (p, q))
+        imageName = str(i+1) + '-' + colorToImageName(foregroundColorImage, 'jpg')[:-4] + '-' + colorToImageName(backgroundColorImage, 'jpg')
+        imageBackgroundCopyHandle.save(imageName)
+
+# to test createTriangleTiles()
+# createTriangleTiles((194, 74, 74, 255), (48, 48, 48, 255))
 
 #DONE
-def createCircleTiles(foregroundColorImage, backgroundColorImage, style):
+def createCircleTile(foregroundColor, backgroundColor, style):
     '''
     create image tile of input style in foregroundColor on the square backgroundColorImage
     '''
     os.chdir("c:/pythoncode/programs/wallpapergenerator/colors")
 
-    imageBackgroundHandle = Image.open('background/' + backgroundColorImage)
+    imageBackgroundHandle = Image.open('background/' + colorToImageName(backgroundColor, 'jpg'))
     xLimit, yLimit = imageBackgroundHandle.size
 
 
@@ -93,9 +124,9 @@ def createCircleTiles(foregroundColorImage, backgroundColorImage, style):
                          'corner4' : {'xOrigin' : xLimit // 2, 'yOrigin' : yLimit}}
 
     for i in range(1, 5):
-        imageBackgroundHandle = Image.open('background/' + backgroundColorImage)
+        imageBackgroundHandle = Image.open('background/' + colorToImageName(backgroundColor, 'jpg'))
         imageBackgroundCopyHandle = imageBackgroundHandle.copy()
-        imageForegroundHandle = Image.open('pixel/' + foregroundColorImage)
+        imageForegroundHandle = Image.open('pixel/' + colorToImageName(foregroundColor, 'jpg'))
 
         if style == 'quartercircle':
             xOrigin = originsQuarterCircle['corner' + str(i)]['xOrigin']
@@ -112,14 +143,16 @@ def createCircleTiles(foregroundColorImage, backgroundColorImage, style):
                     imageBackgroundCopyHandle.paste(imageForegroundHandle, (x, y))
 
 
-        imageName = str(i) + '-' +foregroundColorImage[:-4] + '-' + backgroundColorImage
+        imageName = str(i) + '-' + colorToImageName(foregroundColor, 'jpg')[:-4] + '-' + colorToImageName(backgroundColor, 'jpg')
         if style == 'quartercircle':
             imageBackgroundCopyHandle.save('quartercircle/' + imageName)
         elif style == 'semicircle':
             imageBackgroundCopyHandle.save('semicircle/' + imageName)
 
+
+
 #DONE
-def createSquareTiles(xLimit, yLimit, color):
+def createSquareTile(xLimit, yLimit, color):
     '''
     create square image of input color of input dimensions
     '''
